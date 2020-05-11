@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edittext_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/edittext_msg_hint"/>
+
+    <Button
+        android:id="@+id/button_new_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_call_activity_label"
+        android:onClick="callNewActivity"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp" />
+
+    <Button
+        android:id="@+id/button_new_activity_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_label_cal_answer"
+        android:onClick="callNewActivityForResult"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp" />
+
+    <TextView
+        android:id="@+id/textview_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center_horizontal" />
+
+</LinearLayout>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Fake Messenger</string>
+    <string name="button_call_activity_label">Call Activity</string>
+    <string name="edittext_msg_hint">Insira sua mensagem</string>
+    <string name="button_label_cal_answer">Call for Answer</string>
+    <string name="button_send_label">Send</string>
+    <string name="edittext_answer_hint">Escreva...</string>
+    <string name="new_acitivity_label">New Acitivity</string>
+</resources>
