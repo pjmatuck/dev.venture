@@ -1,0 +1,2 @@
+rootProject.name='Par ou Impar'
+include ':app'

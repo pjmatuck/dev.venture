@@ -2,17 +2,19 @@ package learn.java.controlpanellab;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 
-import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     */
     //Toolbar toolbar;
     ConstraintLayout mainLayout;
+    Button button;
+    EditText editText;
+    private ColorStateList editTextColorStateListDefault;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,30 @@ public class MainActivity extends AppCompatActivity {
         //toolbar = findViewById(R.id.new_toolbar);
         //setSupportActionBar(toolbar);
         mainLayout = findViewById(R.id.main_layout);
+
+        button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(editText.getText().toString().isEmpty()){
+                    editText.clearFocus();
+                    editText.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                }
+            }
+        });
+
+        editText = findViewById(R.id.editText);
+        editTextColorStateListDefault = editText.getBackgroundTintList();
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.d(MainActivity.class.getSimpleName(),String.valueOf(hasFocus));
+                if(hasFocus)
+                    v.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                else
+                    v.setBackgroundTintList(editTextColorStateListDefault);
+            }
+        });
     }
 
     @Override

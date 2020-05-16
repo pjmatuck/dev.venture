@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Par ou Impar</string>
+    <string name="win_message">Você venceu!</string>
+    <string name="loose_message">Você perdeu!</string>
+</resources>
