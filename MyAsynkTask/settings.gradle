@@ -1,0 +1,2 @@
+rootProject.name='MyAsynkTask'
+include ':app'

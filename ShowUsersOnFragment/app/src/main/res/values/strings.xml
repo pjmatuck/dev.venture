@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ShowUsersOnFragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_user_1">User 1</string>
+    <string name="button_user_2">User 2</string>
+    <string name="button_user_3">User 3</string>
+</resources>
