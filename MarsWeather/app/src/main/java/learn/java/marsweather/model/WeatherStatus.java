@@ -2,21 +2,21 @@ package learn.java.marsweather.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class WheaterStatus {
+public class WeatherStatus {
 
     private String season;
     private Air air;
 
-    public WheaterStatus() {
+    public WeatherStatus() {
     }
 
-    public WheaterStatus(String season, Air air) {
+    public WeatherStatus(String season, Air air) {
         this.season = season;
         this.air = air;
     }
 
     //Firulagem
-    public WheaterStatus(String season, float average, float maximum, float minimum) {
+    public WeatherStatus(String season, float average, float maximum, float minimum) {
         this.season = season;
         Temperature temperature = new Temperature(average, maximum, minimum);
         this.air = new Air(temperature);

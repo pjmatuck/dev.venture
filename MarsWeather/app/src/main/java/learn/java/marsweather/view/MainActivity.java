@@ -1,64 +1,80 @@
 package learn.java.marsweather.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import learn.java.marsweather.R;
-import learn.java.marsweather.model.WheaterStatus;
-import learn.java.marsweather.retrofit.RetrofitConfig;
+import learn.java.marsweather.databinding.ActivityMainBinding;
+import learn.java.marsweather.viewmodel.MarsWeatherViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    RetrofitConfig retrofit;
 
-    TextView season, temperature;
+    public ActivityMainBinding activityMainBinding;
+    public MarsWeatherViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        viewModel = new ViewModelProvider(this).get(MarsWeatherViewModel.class);
 
-        season = findViewById(R.id.textView_season);
-        temperature = findViewById(R.id.textView_temp_average);
+        viewModel.getLatestMarsWeather();
 
-        String nome = "Pedro";
-        retrofit = new RetrofitConfig();
+        receiveWeatherStatus();
+        receivePhoto();
+    }
 
-        //retrofit.getMarsWheaterAPI().getLatestWheater();
+    private void receiveWeatherStatus(){
+        viewModel.weatherStatusMutableLiveData.observe(this, weatherStatus ->
+                activityMainBinding.setWeatherStatus(weatherStatus));
+    }
 
-        retrofit.getMarsWeatherAPI().getLatestWeather()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<WheaterStatus>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
+    private void receivePhoto(){
+        viewModel.photoURL.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                setImageView(activityMainBinding.imageView, s);
+            }
+        });
+    }
 
-                    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-                    @Override
-                    public void onNext(@NonNull WheaterStatus wheaterStatus) {
-                        Log.d(TAG, wheaterStatus.getSeason());
-                        season.setText(wheaterStatus.getSeason());
-                        temperature.setText(String.valueOf(wheaterStatus.getAir().getTemperature().getAverage()));
-                    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menu_camera){
+            viewModel.getMarsPhoto();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d(TAG, e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+    public void setImageView(ImageView image, String url){
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(android.R.drawable.ic_dialog_alert)
+                .fitCenter();
+        Glide.with(getApplicationContext())
+                .setDefaultRequestOptions(requestOptions)
+                .load(url)
+                .into(image);
     }
 }
